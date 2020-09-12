@@ -43,14 +43,32 @@ int main(int argc, char* args[])
 		}
 		else
 		{
-			// Apply image
-			SDL_BlitSurface(gHelloWorld, NULL, winSurface, NULL);
+			// Quit flag
+			bool quit = false;
 
-			// Update surface 
-			SDL_UpdateWindowSurface(win);
+			// An SDL_Event union which tracks various things like key presses, mouse presses, etc.,
+			SDL_Event e;
 
-			// Wait two seconds
-			SDL_Delay(2000);
+			// Main/ Game loop
+			while (!quit)
+			{
+				while (SDL_PollEvent(&e) != 0)
+				{
+					// User requests quit
+					if (e.type == SDL_QUIT)
+					{
+						quit = true;
+					}
+				}
+				// Apply image
+				SDL_BlitSurface(gHelloWorld, NULL, winSurface, NULL);
+
+				// Update surface 
+				SDL_UpdateWindowSurface(win);
+			}
+
+			//// Wait two seconds
+			//SDL_Delay(2000);
 		}
 	}
 
