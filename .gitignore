@@ -36,4 +36,5 @@
 *.opendb
 *.db
 .vs/
+SDL2/
 _Binary/*_d.ini
