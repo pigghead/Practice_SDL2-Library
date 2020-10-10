@@ -23,10 +23,10 @@ SDL_Surface* OptimizedSurfaceLoader::OptimizedLoadedSurface(std::string path, SD
 		{
 			std::cout << "Error converting surface: " << SDL_GetError() << std::endl;
 		}
-	}
 
-	// Free the surface
-	SDL_FreeSurface(loadedSurface);
+		// Free the surface
+		SDL_FreeSurface(loadedSurface);
+	}
 
 	return optimizedSurface;
 }

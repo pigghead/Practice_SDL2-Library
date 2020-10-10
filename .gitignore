@@ -38,3 +38,6 @@
 .vs/
 SDL2/
 _Binary/*_d.ini
+
+# Added Libraries
+SDL2_image/
