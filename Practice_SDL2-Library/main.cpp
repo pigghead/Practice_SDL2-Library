@@ -1,7 +1,10 @@
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
+
 #include "OptimizedSurfaceLoader.h"
+#include "TextureLoader.h"
+
 #undef main  // This is necessary due to an unresolved main external when using SDL2
 
 const int SCREEN_WIDTH = 640;
@@ -27,6 +30,7 @@ SDL_Surface* gCurrentSurface = NULL;	// Current displayed image
 
 SDL_Renderer* gWindowRenderer = NULL;	// Renderer for the window
 
+SDL_Texture* gTexture = NULL;	// Texture to load into/ onto
 
 /* Function prototypes */
 // Startup + window creation
@@ -96,13 +100,23 @@ int main(int argc, char* args[])
 					}
 				}
 
+				// Clear screen
+				SDL_RenderClear(gWindowRenderer);
+
+				// Render to screen
+				SDL_RenderCopy(gWindowRenderer, gTexture, NULL, NULL);
+
+				// Update screen
+				SDL_RenderPresent(gWindowRenderer);
+
 				// Apply image
-				SDL_BlitSurface(gCurrentSurface, NULL, winSurface, NULL);
+				//SDL_BlitSurface(gCurrentSurface, NULL, winSurface, NULL);
 
 				// Update surface 
-				SDL_UpdateWindowSurface(win);
+				//SDL_UpdateWindowSurface(win);
 			}
 		}
+		Close();
 	}
 
 	return 0;
@@ -263,6 +277,13 @@ bool LoadMedia()
 		success = false;
 	}
 
+	gTexture = TextureLoader::LoadTexture("media/preview.png", gWindowRenderer);
+	if (gTexture == NULL)
+	{
+		std::cout << "Error loading texture: " << SDL_GetError() << std::endl;
+		success = false;
+	}
+
 	return success;
 }
 
@@ -271,10 +292,17 @@ void Close()
 	// Deallocate surface
 	SDL_FreeSurface(winSurface);
 
-	// Destroy window
+	// Destroy texture
+	SDL_DestroyTexture(gTexture);
+	gTexture = NULL;
+
+	// Destroy window + Renderer
 	SDL_DestroyWindow(win);
 	win = NULL;
+	SDL_DestroyRenderer(gWindowRenderer);
+	gWindowRenderer = NULL;
 
 	// Quit SDL
+	IMG_Quit();
 	SDL_Quit();
 }

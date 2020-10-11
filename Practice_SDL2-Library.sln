@@ -5,6 +5,8 @@ VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Practice_SDL2-Library", "Practice_SDL2-Library\Practice_SDL2-Library.vcxproj", "{810408C3-07CE-453C-BC87-D8DCEEBCCBEC}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrimitiveGeometry", "PrimitiveGeometry\PrimitiveGeometry.vcxproj", "{C6F30193-8035-48EA-B2E6-3D5666F501F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{810408C3-07CE-453C-BC87-D8DCEEBCCBEC}.Release|x64.Build.0 = Release|x64
 		{810408C3-07CE-453C-BC87-D8DCEEBCCBEC}.Release|x86.ActiveCfg = Release|Win32
 		{810408C3-07CE-453C-BC87-D8DCEEBCCBEC}.Release|x86.Build.0 = Release|Win32
+		{C6F30193-8035-48EA-B2E6-3D5666F501F4}.Debug|x64.ActiveCfg = Debug|x64
+		{C6F30193-8035-48EA-B2E6-3D5666F501F4}.Debug|x64.Build.0 = Debug|x64
+		{C6F30193-8035-48EA-B2E6-3D5666F501F4}.Debug|x86.ActiveCfg = Debug|Win32
+		{C6F30193-8035-48EA-B2E6-3D5666F501F4}.Debug|x86.Build.0 = Debug|Win32
+		{C6F30193-8035-48EA-B2E6-3D5666F501F4}.Release|x64.ActiveCfg = Release|x64
+		{C6F30193-8035-48EA-B2E6-3D5666F501F4}.Release|x64.Build.0 = Release|x64
+		{C6F30193-8035-48EA-B2E6-3D5666F501F4}.Release|x86.ActiveCfg = Release|Win32
+		{C6F30193-8035-48EA-B2E6-3D5666F501F4}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

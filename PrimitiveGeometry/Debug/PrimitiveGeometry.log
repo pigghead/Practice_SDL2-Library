@@ -1,0 +1,3 @@
+﻿  PrimitiveGeometry.cpp
+C:\Users\justi\source\repos\Practice_SDL2-Library\PrimitiveGeometry\PrimitiveGeometry.cpp(125,35): warning C4804: '<': unsafe use of type 'bool' in operation
+  PrimitiveGeometry.vcxproj -> C:\Users\justi\source\repos\Practice_SDL2-Library\Debug\PrimitiveGeometry.exe
