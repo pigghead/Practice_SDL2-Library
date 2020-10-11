@@ -1,5 +1,6 @@
 #include <iostream>
 #include <SDL.h>
+#include <SDL_image.h>
 #include "OptimizedSurfaceLoader.h"
 #undef main  // This is necessary due to an unresolved main external when using SDL2
 
@@ -24,10 +25,15 @@ SDL_Surface* gHelloWorld = NULL;		// Image to be loaded + shown
 SDL_Surface* gKeyPressSurfaces[KEY_PRESS_SURFACE_TOTAL];	// Array of our possible key presses
 SDL_Surface* gCurrentSurface = NULL;	// Current displayed image
 
+SDL_Renderer* gWindowRenderer = NULL;	// Renderer for the window
+
 
 /* Function prototypes */
 // Startup + window creation
 bool Init();
+
+// Startup + Window & Renderer creation
+bool InitRenderer();
 
 // Loads all media
 bool LoadMedia();
@@ -38,7 +44,7 @@ void Close();
 int main(int argc, char* args[])
 {
 	// Startup/ Initialization
-	if (!Init())
+	if (!InitRenderer())
 	{
 		std::cout << "Failed to initialize" << std::endl;
 	}
@@ -125,8 +131,77 @@ bool Init()
 		}
 		else
 		{
-			// Get window surface
-			winSurface = SDL_GetWindowSurface(win);
+			// Initialize SDL_Image with PNG loading
+			int imgFlags = IMG_INIT_PNG;
+
+			// Error check PNG loading enabled
+			if (!(IMG_Init(imgFlags) & imgFlags))
+			{
+				std::cout << "Error initializing SDL_Image: " << IMG_GetError() << std::endl;
+				success = false;
+			}
+			else
+			{
+				// Get window surface
+				winSurface = SDL_GetWindowSurface(win);
+			}
+		}
+	}
+
+	return success;
+}
+
+bool InitRenderer()
+{
+	// Success flag
+	bool success = true;
+
+	// Initialization
+	if (!SDL_Init(SDL_INIT_VIDEO) < 0)
+	{
+		std::cout << "Error intializing SDL: " << SDL_GetError() << std::endl;
+		success = false;
+	}
+	else
+	{
+		// Create the window
+		win = SDL_CreateWindow("Window with Renderer", 100, 100, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
+
+		// Error check
+		if (win == NULL)
+		{
+			std::cout << "Error creating window: " << SDL_GetError() << std::endl;
+			success = false;
+		}
+		else
+		{
+			// Create the renderer
+			gWindowRenderer = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+
+			// Error check renderer
+			if (gWindowRenderer == NULL)
+			{
+				std::cout << "Error creating renderer: " << SDL_GetError() << std::endl;
+				success = false;
+			}
+			else
+			{
+				// Set render color
+				SDL_SetRenderDrawColor(gWindowRenderer, 0XFF, 0XFF, 0XFF, 0XFF);
+
+				// Initialize PNG loading
+				int imgFlags = IMG_INIT_PNG;  // Value of 2
+
+				if (!(IMG_Init(imgFlags) & imgFlags))
+				{
+					std::cout << "Error initializing IMG: " << IMG_GetError() << std::endl;
+					success = false;
+				}
+				else
+				{
+					winSurface = SDL_GetWindowSurface(win);
+				}
+			}
 		}
 	}
 

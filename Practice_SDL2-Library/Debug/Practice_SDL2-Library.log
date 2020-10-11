@@ -1,4 +1,3 @@
 ﻿  main.cpp
-  OptimizedSurfaceLoader.cpp
-  Generating Code...
+C:\Users\justi\source\repos\Practice_SDL2-Library\Practice_SDL2-Library\main.cpp(160,35): warning C4804: '<': unsafe use of type 'bool' in operation
   Practice_SDL2-Library.vcxproj -> C:\Users\justi\source\repos\Practice_SDL2-Library\Debug\Practice_SDL2-Library.exe
