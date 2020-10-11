@@ -60,8 +60,6 @@ int main(int argc, char* args[])
 			// An SDL_Event union which tracks various things like key presses, mouse presses, etc.,
 			SDL_Event e;
 
-			// Default 
-
 			// Main/ Game loop
 			while (!quit)
 			{
@@ -72,46 +70,40 @@ int main(int argc, char* args[])
 					{
 						quit = true;
 					}
-					else if (e.type == SDL_KEYDOWN)
-					{
-						switch (e.key.keysym.sym)
-						{
-						case SDLK_UP:
-							gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_UP];
-							break;
-						case SDLK_DOWN:
-							gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_DOWN];
-							break;
-						case SDLK_LEFT:
-							gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_LEFT];
-							break;
-						case SDLK_RIGHT:
-							gCurrentSurface = gKeyPressSurfaces[KEY_PRESS_SURFACE_RIGHT];
-							break;
-						default:
-							break;
-						}
-					}
 				}
 
 				// Clear screen
+				SDL_SetRenderDrawColor(gWindowRenderer, 0x64, 0x95, 0xED, 0xFF);
 				SDL_RenderClear(gWindowRenderer);
 
-				// Render to screen
-				SDL_RenderCopy(gWindowRenderer, gTexture, NULL, NULL);
+				// Draw red quad
+				SDL_Rect redQuad = { SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2 };
+				SDL_SetRenderDrawColor(gWindowRenderer, 0xFF, 0x00, 0x00, 0xFF);
+				SDL_RenderFillRect(gWindowRenderer, &redQuad);
 
-				// Update screen
+				// Draw green (empty) quad
+				SDL_Rect greenQuad = { SCREEN_WIDTH / 6, SCREEN_HEIGHT / 6, SCREEN_WIDTH * 2 / 3, SCREEN_HEIGHT * 2 / 3 };
+				SDL_SetRenderDrawColor(gWindowRenderer, 0x00, 0xFF, 0x00, 0xFF);
+				SDL_RenderDrawRect(gWindowRenderer, &greenQuad);
+
+				// Draw blue line
+				SDL_SetRenderDrawColor(gWindowRenderer, 0x00, 0x00, 0xFF, 0xFF);
+				SDL_RenderDrawLine(gWindowRenderer, 0, SCREEN_HEIGHT / 2, SCREEN_WIDTH, SCREEN_HEIGHT / 2);
+
+				// Draw yellow line
+				SDL_SetRenderDrawColor(gWindowRenderer, 0xFF, 0xFF, 0x00, 0xFF);
+
+				for (size_t i = 0; i < SCREEN_HEIGHT; i+=4)
+				{
+					SDL_RenderDrawPoint(gWindowRenderer, SCREEN_WIDTH / 2, i);
+				}
+
 				SDL_RenderPresent(gWindowRenderer);
-
-				// Apply image
-				//SDL_BlitSurface(gCurrentSurface, NULL, winSurface, NULL);
-
-				// Update surface 
-				//SDL_UpdateWindowSurface(win);
 			}
 		}
-		Close();
 	}
+
+	Close();
 
 	return 0;
 }
