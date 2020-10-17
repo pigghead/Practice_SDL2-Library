@@ -35,6 +35,12 @@ SDL_Texture* gTexture = NULL;	// Texture to load into/ onto
 LTexture gFooTexture;
 LTexture gBackgroundTexture;
 
+// Array of rectangles that will clip the sprite sheet
+SDL_Rect gSpriteClips[4];
+
+// Sprite sheet that we will be clipping
+LTexture gSpritesheet;
+
 /* Function prototypes */
 // Startup + Window & Renderer creation
 bool InitRenderer();
@@ -85,18 +91,21 @@ int main(int argc, char* args[])
 				// Set the background color with the current RenderDrawColor
 				SDL_RenderClear(gWindowRenderer);
 
+				/* Viewport logic below 
 				// Set top left viewport of the window
 				SDL_Rect topLeftViewport;
-
 				topLeftViewport.x = 0;
 				topLeftViewport.y = 0;
 				topLeftViewport.w = SCREEN_WIDTH / 4;
 				topLeftViewport.h = SCREEN_HEIGHT / 4;
-
 				SDL_RenderSetViewport(gWindowRenderer, &topLeftViewport);
+				*/
 
 				// Render a texture to the screen
 				SDL_RenderCopy(gWindowRenderer, gTexture, NULL, NULL);
+
+				gBackgroundTexture.render(0, 0, gWindowRenderer);
+				gFooTexture.render(240, 190, gWindowRenderer);
 
 				// Place all rendering on the screen
 				SDL_RenderPresent(gWindowRenderer);
@@ -163,6 +172,20 @@ bool LoadMedia()
 		success = false;
 	}
 
+	// Load Foo texture
+	if (!gFooTexture.loadFromFile("../art/foo.png", gWindowRenderer))
+	{
+		std::cout << "Failed to load gFooTexture." << std::endl;
+		success = false;
+	}
+
+	// Load background texture
+	if (!gBackgroundTexture.loadFromFile("../art/background.png", gWindowRenderer))
+	{
+		std::cout << "Failed to load gBackgroundTexture" << std::endl;
+		success = false;
+	}
+
 	return success;
 }
 
@@ -170,6 +193,10 @@ void Close()
 {
 	// Deallocate surface
 	SDL_FreeSurface(gWindowSurface);
+
+	// Free loaded images
+	gFooTexture.free();
+	gBackgroundTexture.free();
 
 	// Destroy texture
 	SDL_DestroyTexture(gTexture);

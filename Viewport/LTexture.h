@@ -1,6 +1,8 @@
 #pragma once
+#include <iostream>
 #include <string>
 #include <SDL.h>
+#include <SDL_image.h>
 // Texture Wrapper
 class LTexture
 {
@@ -8,13 +10,13 @@ public:
 	LTexture();
 	~LTexture();
 
-	bool loadFromFile(std::string path);
+	bool loadFromFile(std::string path, SDL_Renderer* ren);
 
 	// Deallocates texture
 	void free();
 
 	// renders texture at a certain point
-	void render(int x, int y);
+	void render(int x, int y, SDL_Rect* clip, SDL_Renderer* ren);
 
 	// get image dimensions
 	int getWidth();
