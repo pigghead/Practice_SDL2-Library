@@ -102,10 +102,23 @@ int main(int argc, char* args[])
 				*/
 
 				// Render a texture to the screen
-				SDL_RenderCopy(gWindowRenderer, gTexture, NULL, NULL);
+				//SDL_RenderCopy(gWindowRenderer, gTexture, NULL, NULL);
 
-				gBackgroundTexture.render(0, 0, gWindowRenderer);
-				gFooTexture.render(240, 190, gWindowRenderer);
+				//gBackgroundTexture.render(0, 0, gWindowRenderer);
+				//gFooTexture.render(240, 190, gWindowRenderer);
+
+				// Render the spritesheets
+				// top left
+				gSpritesheet.render(0, 0, gWindowRenderer, &gSpriteClips[0]);
+
+				// top right
+				gSpritesheet.render(SCREEN_WIDTH - gSpriteClips[1].w, 0, gWindowRenderer, &gSpriteClips[1]);
+
+				// bottom left
+				gSpritesheet.render(0, SCREEN_HEIGHT - gSpriteClips[2].h, gWindowRenderer, &gSpriteClips[2]);
+
+				// bottom right
+				gSpritesheet.render(SCREEN_WIDTH - gSpriteClips[3].w, SCREEN_HEIGHT - gSpriteClips[3].h, gWindowRenderer, &gSpriteClips[3]);
 
 				// Place all rendering on the screen
 				SDL_RenderPresent(gWindowRenderer);
@@ -184,6 +197,38 @@ bool LoadMedia()
 	{
 		std::cout << "Failed to load gBackgroundTexture" << std::endl;
 		success = false;
+	}
+	
+	// Load the sprite sheet
+	if (!gSpritesheet.loadFromFile("../art/sprites.png", gWindowRenderer))
+	{
+		std::cout << "Failed to load gSpriteSheet" << std::endl;
+	}
+	else
+	{
+		// top left
+		gSpriteClips[0].x = 0;
+		gSpriteClips[0].y = 0;
+		gSpriteClips[0].w = 100;
+		gSpriteClips[0].h = 100;
+
+		// top right
+		gSpriteClips[1].x = 100;
+		gSpriteClips[1].y = 0;
+		gSpriteClips[1].w = 100;
+		gSpriteClips[1].h = 100;
+
+		// bottom left
+		gSpriteClips[2].x = 0;
+		gSpriteClips[2].y = 100;
+		gSpriteClips[2].w = 100;
+		gSpriteClips[2].h = 100;
+
+		// bottom right
+		gSpriteClips[3].x = 100;
+		gSpriteClips[3].y = 100;
+		gSpriteClips[3].w = 100;
+		gSpriteClips[3].h = 100;
 	}
 
 	return success;
