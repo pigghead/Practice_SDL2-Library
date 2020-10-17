@@ -63,6 +63,21 @@ void LTexture::free()
 	}
 };
 
+void LTexture::setColor(Uint8 r, Uint8 g, Uint8 b)
+{
+	SDL_SetTextureColorMod(tex, r, g, b);
+};
+
+void LTexture::setBlendMode(SDL_BlendMode blending)
+{
+	SDL_SetTextureBlendMode(tex, blending);
+};
+
+void LTexture::setAlpha(Uint8 a)
+{
+	SDL_SetTextureAlphaMod(tex, a);
+};
+
 void LTexture::render(int x, int y, SDL_Renderer* ren, SDL_Rect* clip = NULL)
 {
 	// Set rendering space and render to screen

@@ -15,6 +15,15 @@ public:
 	// Deallocates texture
 	void free();
 
+	// Color modulation
+	void setColor(Uint8 r, Uint8 g, Uint8 b);
+
+	// Control color blending
+	void setBlendMode(SDL_BlendMode blending);
+
+	// Control alpha
+	void setAlpha(Uint8 a);
+
 	// renders texture at a certain point
 	void render(int x, int y, SDL_Renderer* ren, SDL_Rect* clip);
 

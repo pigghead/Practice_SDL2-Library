@@ -34,6 +34,10 @@ SDL_Texture* gTexture = NULL;	// Texture to load into/ onto
 
 LTexture gFooTexture;
 LTexture gBackgroundTexture;
+LTexture gModulatedTexture;
+
+LTexture gBackground;
+LTexture gForeground;
 
 // Array of rectangles that will clip the sprite sheet
 SDL_Rect gSpriteClips[4];
@@ -72,6 +76,12 @@ int main(int argc, char* args[])
 			// An SDL_Event union which tracks various things like key presses, mouse presses, etc.,
 			SDL_Event e;
 
+			// Color mod keys
+			Uint8 red = 255;
+			Uint8 blue = 255;
+			Uint8 green = 255;
+			Uint8 alpha = 255;
+
 			// Main/ Game loop
 			while (!quit)
 			{
@@ -82,43 +92,77 @@ int main(int argc, char* args[])
 					{
 						quit = true;
 					}
+					// Look for key presses
+					else if (e.type == SDL_KEYDOWN)
+					{
+						switch (e.key.keysym.sym)
+						{
+							// Handle red
+							case SDLK_q:	// increase red
+								red += 32;
+								break;
+							case SDLK_a:	// decrease red
+								red -= 32;
+								break;
+
+							// Handle green
+							case SDLK_w:	// increase green
+								blue += 32;	
+								break;
+							case SDLK_s:	// decrease green
+								blue -= 32;	
+								break;
+
+							// Handle blue
+							case SDLK_e:	// increase blue
+								green += 32;
+								break;
+							case SDLK_d:	// decrease blue
+								green -= 32;
+								break;
+
+							// Handle alpha
+							case SDLK_r:	// increase alpha
+								if (alpha + 32 > 255)
+								{
+									alpha = 255;
+								}
+								else
+								{
+									alpha += 32;
+								}
+								break;
+							case SDLK_f:	// decrease alpha
+								if (alpha - 32 < 0)
+								{
+									alpha = 0;
+								}
+								else
+								{
+									alpha -= 32;
+								}
+								break;
+						}
+					}
 				}
 
 				/* SetRenderDrawColor & RenderPresent are needed to prevent memoru leaks */
 				// Set draw color to corn flower blue
 				SDL_SetRenderDrawColor(gWindowRenderer, 0x64, 0x95, 0xED, 0xFF);
 
-				// Set the background color with the current RenderDrawColor
+				// Set the background color with the current RenderDrawColor (!!Clear screen!!)
 				SDL_RenderClear(gWindowRenderer);
 
-				/* Viewport logic below 
-				// Set top left viewport of the window
-				SDL_Rect topLeftViewport;
-				topLeftViewport.x = 0;
-				topLeftViewport.y = 0;
-				topLeftViewport.w = SCREEN_WIDTH / 4;
-				topLeftViewport.h = SCREEN_HEIGHT / 4;
-				SDL_RenderSetViewport(gWindowRenderer, &topLeftViewport);
-				*/
+				gModulatedTexture.setColor(red, green, blue);
+				gModulatedTexture.render(0, 0, gWindowRenderer, NULL);
 
-				// Render a texture to the screen
-				//SDL_RenderCopy(gWindowRenderer, gTexture, NULL, NULL);
+				// Render background
+				gBackground.render(0, 0, gWindowRenderer, NULL);
 
-				//gBackgroundTexture.render(0, 0, gWindowRenderer);
-				//gFooTexture.render(240, 190, gWindowRenderer);
-
-				// Render the spritesheets
-				// top left
-				gSpritesheet.render(0, 0, gWindowRenderer, &gSpriteClips[0]);
-
-				// top right
-				gSpritesheet.render(SCREEN_WIDTH - gSpriteClips[1].w, 0, gWindowRenderer, &gSpriteClips[1]);
-
-				// bottom left
-				gSpritesheet.render(0, SCREEN_HEIGHT - gSpriteClips[2].h, gWindowRenderer, &gSpriteClips[2]);
-
-				// bottom right
-				gSpritesheet.render(SCREEN_WIDTH - gSpriteClips[3].w, SCREEN_HEIGHT - gSpriteClips[3].h, gWindowRenderer, &gSpriteClips[3]);
+				// Render blended foreground
+				gForeground.setAlpha(alpha);
+				gForeground.render(0, 0, gWindowRenderer, NULL);
+				
 
 				// Place all rendering on the screen
 				SDL_RenderPresent(gWindowRenderer);
@@ -178,11 +222,22 @@ bool LoadMedia()
 {
 	bool success = true;
 
+	// Load view port texture
 	gTexture = TextureLoader::LoadTexture("../art/viewport.png", gWindowRenderer);
 	if (gTexture == NULL)
 	{
 		std::cout << "Error loading texture: " << SDL_GetError() << std::endl;
 		success = false;
+
+		/* Viewport logic below
+		// Set top left viewport of the window
+		SDL_Rect topLeftViewport;
+		topLeftViewport.x = 0;
+		topLeftViewport.y = 0;
+		topLeftViewport.w = SCREEN_WIDTH / 4;
+		topLeftViewport.h = SCREEN_HEIGHT / 4;
+		SDL_RenderSetViewport(gWindowRenderer, &topLeftViewport);
+		*/
 	}
 
 	// Load Foo texture
@@ -190,6 +245,8 @@ bool LoadMedia()
 	{
 		std::cout << "Failed to load gFooTexture." << std::endl;
 		success = false;
+
+		//gFooTexture.render(240, 190, gWindowRenderer);
 	}
 
 	// Load background texture
@@ -197,6 +254,8 @@ bool LoadMedia()
 	{
 		std::cout << "Failed to load gBackgroundTexture" << std::endl;
 		success = false;
+
+		//gBackgroundTexture.render(0, 0, gWindowRenderer);
 	}
 	
 	// Load the sprite sheet
@@ -229,6 +288,47 @@ bool LoadMedia()
 		gSpriteClips[3].y = 100;
 		gSpriteClips[3].w = 100;
 		gSpriteClips[3].h = 100;
+
+		/* SPRITE SHEET RENDERING
+		// Render the spritesheets
+		// top left
+		gSpritesheet.render(0, 0, gWindowRenderer, &gSpriteClips[0]);
+		
+		// top right
+		gSpritesheet.render(SCREEN_WIDTH - gSpriteClips[1].w, 0, gWindowRenderer, &gSpriteClips[1]);
+		
+		// bottom left
+		gSpritesheet.render(0, SCREEN_HEIGHT - gSpriteClips[2].h, gWindowRenderer, &gSpriteClips[2]);
+		
+		// bottom right
+		gSpritesheet.render(SCREEN_WIDTH - gSpriteClips[3].w, SCREEN_HEIGHT - gSpriteClips[3].h, gWindowRenderer, &gSpriteClips[3]);
+		*/
+	}
+
+	if (!gModulatedTexture.loadFromFile("../art/full.png", gWindowRenderer))
+	{
+		std::cout << "Failed to load gModulatedTexture" << std::endl;
+		success = false;
+	}
+
+	// Load fading textures
+	// Fade out -> foreground
+	if (!gForeground.loadFromFile("../art/fadeout.png", gWindowRenderer))
+	{
+		std::cout << "Failed to load gFadeout" << std::endl;
+		success = false;
+	}
+	else
+	{
+		// Set the foreground's blend mode to standard alpha blending
+		gForeground.setBlendMode(SDL_BLENDMODE_BLEND);
+	}
+
+	// Fade in -> background
+	if (!gBackground.loadFromFile("../art/fadein.png", gWindowRenderer))
+	{
+		std::cout << "Failed to load gFadein" << std::endl;
+		success = false;
 	}
 
 	return success;
