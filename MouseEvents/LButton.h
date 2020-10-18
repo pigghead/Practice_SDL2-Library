@@ -40,5 +40,8 @@ private:
 
 	// The button's sprite
 	LButtonSprite mCurrentSprite;
+
+	// Sprite sheet accepted by button
+
 };
 
