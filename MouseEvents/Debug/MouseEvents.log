@@ -1,0 +1,3 @@
+﻿  MouseEvents.cpp
+C:\Users\justi\source\repos\Practice_SDL2-Library\MouseEvents\MouseEvents.cpp(97,35): warning C4804: '<': unsafe use of type 'bool' in operation
+  MouseEvents.vcxproj -> C:\Users\justi\source\repos\Practice_SDL2-Library\Debug\MouseEvents.exe

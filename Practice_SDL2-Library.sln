@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PrimitiveGeometry", "Primit
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Viewport", "Viewport\Viewport.vcxproj", "{671BF6A0-FD9C-4B19-8A92-22E63EFB6EB7}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MouseEvents", "MouseEvents\MouseEvents.vcxproj", "{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -41,6 +43,14 @@ Global
 		{671BF6A0-FD9C-4B19-8A92-22E63EFB6EB7}.Release|x64.Build.0 = Release|x64
 		{671BF6A0-FD9C-4B19-8A92-22E63EFB6EB7}.Release|x86.ActiveCfg = Release|Win32
 		{671BF6A0-FD9C-4B19-8A92-22E63EFB6EB7}.Release|x86.Build.0 = Release|Win32
+		{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}.Debug|x64.ActiveCfg = Debug|x64
+		{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}.Debug|x64.Build.0 = Debug|x64
+		{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}.Debug|x86.ActiveCfg = Debug|Win32
+		{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}.Debug|x86.Build.0 = Debug|Win32
+		{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}.Release|x64.ActiveCfg = Release|x64
+		{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}.Release|x64.Build.0 = Release|x64
+		{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}.Release|x86.ActiveCfg = Release|Win32
+		{D7B36ABF-55B3-4AE4-8BF4-E9D5B63F100C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
